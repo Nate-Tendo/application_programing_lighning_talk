@@ -7,7 +7,7 @@ from tkinter import ttk
 WINDOW_WIDTH, WINDOW_HEIGHT = 600, 600
 
 root = tk.Tk()
-root.title("Thermo Simulation")
+root.title("S.S. 1D Heat Transfer Simulation")
 root.geometry(f"{WINDOW_WIDTH}x{WINDOW_HEIGHT}")
 
 main_window = ttk.Frame(master=root, borderwidth=5, relief='ridge', width=0.9*WINDOW_WIDTH, height=WINDOW_HEIGHT)
@@ -38,10 +38,38 @@ top, bottom = 0.1 * canvas_height, 0.9 * canvas_height
 T_min, T_max = 0, 1000
 T_values = [200, 999, 50]  # initial T1, T2, T3
 
-t1_var = tk.IntVar(value=T_values[0])
-T2_var = tk.DoubleVar(value=T_values[1])
-T3_var = tk.DoubleVar(value=T_values[2])
-tinf_var = tk.DoubleVar(value=100.0)
+T1_var = tk.IntVar(value=400)
+T2_var = tk.DoubleVar(value=0)
+T3_var = tk.DoubleVar(value=0)
+T_inf_var = tk.DoubleVar(value=300.0)
+h_var = tk.DoubleVar(value = 25.0)
+
+k_constants = {'Wood':0.16, 'Brick':0.72, 'Steel':60.5}
+MATERIAL_OPTIONS = ['Wood', 'Brick', 'Steel']
+wall_vars = [tk.StringVar(value='Wood') for _ in range(N_WALLS)]
+A = 2.0
+L = 1.5
+
+def temperature_calcs():
+    T1 = float(T1_var.get())
+    T_inf = float(T_inf_var.get())
+    h = float(h_var.get())
+    k1 = k_constants[wall_vars[0].get()]
+    k2 = k_constants[wall_vars[1].get()]
+    
+    R1 = L / (k1*A)
+    R2 = L / (k2*A)
+    R_conv = 1/(h*A)
+    R_tot = R1+R2+R_conv
+    q = (T1 - T_inf)/R_tot
+    T2 = T1 - q*R1
+    T3 = T1 - q*(R1+R2)
+    T_values[0] = T1
+    T_values[1] = T2
+    T_values[2] = T3
+    T2_var.set(T2)
+    T3_var.set(T3)
+    return q, R1, R2, R_conv
 
 # ================================================================
 # COLOR AND GRADIENT FUNCTIONS
@@ -73,13 +101,14 @@ def draw_horizontal_gradient_rect(x1, y1, x2, y2, T_start, T_end, steps=50):
         T = T_start + (T_end - T_start) * (i / steps)
         color = temp_to_color(T)
         canvas.create_rectangle(x_left, y1, x_right, y2, outline="", fill=color)
-        
+
+   
 def redraw_walls(*args):
     """Clear canvas and redraw walls with updated temperatures."""
     canvas.delete("all")  # remove old drawings
 
-    # Compute updated T1 from slider
-    T_values[0] = t1_var.get()
+    # Compute updated temps from slider
+    q, R1, R2, Rconv = temperature_calcs()
 
     # Draw walls
     for i in range(N_WALLS):
@@ -106,22 +135,23 @@ def redraw_walls(*args):
         y = bottom - (i + 1) * arrow_spacing
         canvas.create_line(arrow_x, y + arrow_length/2, arrow_x, y - arrow_length/2,
                            arrow=tk.LAST, width=2, fill="royalblue")
-    canvas.create_text(arrow_x + 15, (top + bottom)/2, text="Convection (T∞), h = 25 W⋅m⁻¹K⁻¹",
+    canvas.create_text(arrow_x + 15, (top + bottom)/2, text="Convection (T∞), h = 25 W⋅m⁻²K⁻¹",
                        angle=90, fill="royalblue")
+    
+    T2_label.config(text=f"T2: {T2_var.get():.2f} K")
+    T3_label.config(text=f"T3: {T3_var.get():.2f} K")
 
 # ================================================================
 # WIDGETS
 # ================================================================
 t1_label = tk.Label(master=inputs_frame, text="T1 (K):")
-t1_scale = tk.Scale(master=inputs_frame, from_=1000, to=0, orient=tk.VERTICAL, variable=t1_var)
+t1_scale = tk.Scale(master=inputs_frame, from_=1000, to=0, orient=tk.VERTICAL, variable=T1_var)
 tinf_label = tk.Label(master=inputs_frame, text='T∞:')
-tinf_entry = tk.Entry(master=inputs_frame, textvariable=tinf_var, width=10)
+tinf_entry = tk.Entry(master=inputs_frame, textvariable=T_inf_var, width=10)
 tinf_units = tk.Label(master=inputs_frame, text='K')
 T2_label = tk.Label(master=outputs_frame, text=f"T2: {T2_var.get()} K")
 T3_label = tk.Label(master=outputs_frame, text=f"T3: {T3_var.get()} K")
 
-MATERIAL_OPTIONS = ["Wood", "Brick", "Steel"]
-wall_vars = [tk.StringVar(value='Wood') for _ in range(N_WALLS)]
 material_labels = [tk.Label(master=materials_frame, text=f"Wall {i+1} Material:") for i in range(N_WALLS)]
 material_menus = [ttk.Combobox(master=materials_frame, values=MATERIAL_OPTIONS,
                                textvariable=wall_vars[i], state='readonly', width=8) for i in range(N_WALLS)]
@@ -151,7 +181,11 @@ T3_label.grid(row=1, column=0, padx=10)
 # ================================================================
 # CONNECT SLIDER TO REDRAW
 # ================================================================
-t1_var.trace_add("write", redraw_walls)
+T1_var.trace_add("write", redraw_walls)
+T_inf_var.trace_add("write", lambda *a: redraw_walls())
+h_var.trace_add("write", lambda *a: redraw_walls())
+for menu in material_menus:
+    menu.bind("<<ComboboxSelected>>", lambda e: redraw_walls())
 
 # Initial draw
 redraw_walls()
