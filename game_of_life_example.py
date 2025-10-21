@@ -1,3 +1,5 @@
+# **Built from code adapted from 13. The Game of Life in Python | Tkinter | python-course.eu 
+
 import tkinter as tk
 import random
 
