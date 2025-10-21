@@ -15,33 +15,24 @@ https://python-course.eu/tkinter/the-game-of-life-in-python.php
 
 ## Additional Resources
 
-[Tkinter Official Python Documentation:] (https://docs.python.org/3/library/tkinter.html)
+[Tkinter Official Python Documentation](https://docs.python.org/3/library/tkinter.html)
 
-TkDocs Tutorial:
+[TkDocs Tutorial](https://tkdocs.com/tutorial/index.html)
 
-https://tkdocs.com/tutorial/index.html
+[Dvlv/Tkinter-By-Example: Learn Tkinter By Example - a free book](https://github.com/Dvlv/Tkinter-By-Example/tree/master)
 
-Dvlv/Tkinter-By-Example: Learn Tkinter By Example - a free book:
+[Python Tkinter Tutorial - GeeksforGeeks](https://www.geeksforgeeks.org/python/python-tkinter-tutorial/#)
 
-https://github.com/Dvlv/Tkinter-By-Example/tree/master
+[clear-code-projects/tkinter-complete: Code for the complete guide to tkinter tutorial](https://github.com/clear-code-projects/tkinter-complete/tree/main)
 
-Python Tkinter Tutorial - GeeksforGeeks:
+[israel-dryer/ttkbootstrap: A modern theming library for Tkinter that adds sleek, responsive styles inspired by Bootstrap Includes ready-to-use widgets, 20+ themes, and tools for building beautiful, cross-platform desktop apps with ease](https://github.com/israel-dryer/ttkbootstrap)
 
-https://www.geeksforgeeks.org/python/python-tkinter-tutorial/#
+[15-112: Fundamentals of Programming - part 1](https://www.cs.cmu.edu/~112-n19/notes/notes-animations-part1.html)
 
-clear-code-projects/tkinter-complete: Code for the complete guide to tkinter tutorial:
+[15-112: Fundamentals of Programming - part 2](https://www.cs.cmu.edu/~112-n19/notes/notes-animations-part2.html)
 
-https://github.com/clear-code-projects/tkinter-complete/tree/main
+[TkInter - Python Wiki](https://wiki.python.org/moin/TkInter)
 
-israel-dryer/ttkbootstrap: A modern theming library for Tkinter that adds sleek, responsive styles inspired by Bootstrap:
+[Tkinter - the Python interface for Tk | Tkinter | python-course.eu](http://python-course.eu)
 
-https://github.com/israel-dryer/ttkbootstrap
-
-Includes ready-to-use widgets, 20+ themes, and tools for building beautiful, cross-platform desktop apps with ease:
-
-
-15-112: Fundamentals of Programming - part 1
-15-112: Fundamentals of Programming - part 2
-TkInter - Python Wiki
-Tkinter - the Python interface for Tk | Tkinter | python-course.eu
-Tkinter 8.5 reference: a GUI for Python
+[Tkinter 8.5 reference: a GUI for Python](https://anzeljg.github.io/rin2/book2/2405/docs/tkinter/index.html)
