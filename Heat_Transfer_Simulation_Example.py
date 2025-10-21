@@ -33,12 +33,12 @@ wall_width = (canvas_width - left_margin - right_margin) / N_WALLS
 top, bottom = 0.1 * canvas_height, 0.9 * canvas_height
 
 # ================================================================
-# TEMPERATURE VARIABLES
+# TEMPERATURE VARIABLES AND CALCS
 # ================================================================
 T_min, T_max = 0, 1000
-T_values = [200, 999, 50]  # initial T1, T2, T3
+T_values = [0, 0, 0]  # initial T1, T2, T3
 
-T1_var = tk.IntVar(value=400)
+T1_var = tk.IntVar(value=1000)
 T2_var = tk.DoubleVar(value=0)
 T3_var = tk.DoubleVar(value=0)
 T_inf_var = tk.DoubleVar(value=300.0)
@@ -108,7 +108,7 @@ def redraw_walls(*args):
     canvas.delete("all")  # remove old drawings
 
     # Compute updated temps from slider
-    q, R1, R2, Rconv = temperature_calcs()
+    temperature_calcs()
 
     # Draw walls
     for i in range(N_WALLS):
@@ -179,13 +179,12 @@ T2_label.grid(row=0, column=0, padx=10)
 T3_label.grid(row=1, column=0, padx=10)
 
 # ================================================================
-# CONNECT SLIDER TO REDRAW
+# REDRAW WHENEVER VARIABLE CHANGES
 # ================================================================
 T1_var.trace_add("write", redraw_walls)
-T_inf_var.trace_add("write", lambda *a: redraw_walls())
-h_var.trace_add("write", lambda *a: redraw_walls())
+T_inf_var.trace_add("write", redraw_walls)
 for menu in material_menus:
-    menu.bind("<<ComboboxSelected>>", lambda e: redraw_walls())
+    menu.bind("<<ComboboxSelected>>", redraw_walls)
 
 # Initial draw
 redraw_walls()
