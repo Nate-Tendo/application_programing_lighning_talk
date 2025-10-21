@@ -2,6 +2,10 @@
 
 Feel free to follow along in class with our ipynb. The notebook includes additional widgets and some common KWARGs for you to reference in case you want to use tkinter in your projects
 
+## Installation
+tkinter is already included in standard python installations, so no additional steps should be required to run our code!
+To run everything_bagel.py, you do need ttkbootstrap (another library that includes some nice themes to make widgets look prettier!), simply install using: 'python -m pip install ttkbootstrap'
+
 ## Acknowledgements
 Credit GeeksforGeeks for example code, TKinter Python Wiki for class and function information, israel dryer ttkbootstrap for the everything bagel example, and Bernd Klein from python-courses.eu for the game_of_life_example.py
 
